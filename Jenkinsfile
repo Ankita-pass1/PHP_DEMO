@@ -3,7 +3,7 @@ pipeline {
   environment{
       BUILD_SERVER_IP='ec2-user@172.31.47.86'
       // IMAGE_NAME='devopstrainer/java-mvn-privaterepos:php$BUILD_NUMBER'
-        IMAGE_NAME='newaxis.jfrog.io/mydocker-docker/PHP:$BUILD_NUMBER'
+        IMAGE_NAME='newaxis.jfrog.io/mydocker-docker/web-php:$BUILD_NUMBER'
        DEPLOY_SERVER_IP='ec2-user@172.31.45.121'
    }
     stages {          
