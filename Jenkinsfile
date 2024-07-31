@@ -6,7 +6,7 @@ pipeline{
         DEV_SERVER_IP='ec2-user@172.31.39.97'
        // DEPLOY_SERVER_IP='ec2-user@172.31.42.128'
         ACM_IP='ec2-user@172.31.35.35'
-        AWS_ACCESS_KEY_ID =credentials("AWS_ACCESS_KEY_ID")
+        AWS_ACCESS_KEY_ID =credentials("AWS_ACCESS_KEY")
         AWS_SECRET_ACCESS_KEY=credentials("AWS_SECRET_ACCESS_KEY")
         //created a new credential of type secret text to store docker pwd
         DOCKER_REG_PASSWORD=credentials("DOCKER_REG_PASSWORD")
