@@ -1,12 +1,12 @@
 pipeline{
     agent none
     environment{
-        BUILD_SERVER_IP='ec2-user@172.31.1.199'
+        BUILD_SERVER_IP='ec2-user@172.31.2.132'
         //DEPLOY_SERVER_IP='ec2-user@13.234.240.74'
         IMAGE_NAME='devopstrainer/java-mvn-privaterepos:php$BUILD_NUMBER'     
-        ACM_IP='ec2-user@172.31.8.121'
-        AWS_ACCESS_KEY_ID =credentials("AWS_ACCESS_KEY_ID")
-        AWS_SECRET_ACCESS_KEY=credentials("AWS_SECRET_ACCESS_KEY")
+        ACM_IP='ec2-user@172.31.9.113'
+        AWS_ACCESS_KEY_ID =credentials("ACCESS_KEY")
+        AWS_SECRET_ACCESS_KEY=credentials("SECRET_ACCESS_KEY")
         //created a new credential of type secret text to store docker pwd
         DOCKER_REG_PASSWORD=credentials("DOCKER_REG_PASSWORD")
     }
@@ -15,7 +15,7 @@ pipeline{
            agent any
            steps{
             script{
-                sshagent(['build-server']) {
+                sshagent(['slave2']) {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                 echo "BUILD PHP DOCKERIMAGE AND PUSH TO DOCKERHUB"
                 sh "scp -o StrictHostKeyChecking=no -r docker-files ${BUILD_SERVER_IP}:/home/ec2-user"
@@ -67,12 +67,12 @@ pipeline{
     steps{
         script{
             echo "copy ansible files on ACM and run the playbook"
-            sshagent(['build-server']) {
+            sshagent(['slave2']) {
     //sh "ssh -o StrictHostKeyChecking=no ${ACM_IP} envsubst < ansible/docker-compose-var.yml > ansible/docker-compose.yml" 
     sh "scp -o StrictHostKeyChecking=no ansible/* ${ACM_IP}:/home/ec2-user"
     
     //copy the ansible target key on ACM as private key file
-    withCredentials([sshUserPrivateKey(credentialsId: 'Ansible_target',keyFileVariable: 'keyfile',usernameVariable: 'user')]){ 
+    withCredentials([sshUserPrivateKey(credentialsId: 'ansible_target',keyFileVariable: 'keyfile',usernameVariable: 'user')]){ 
     sh "scp  $keyfile ${ACM_IP}:/home/ec2-user/.ssh/id_rsa"    
     }
     sh "ssh  ${ACM_IP} bash /home/ec2-user/prepare-ACM.sh ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY} ${DOCKER_REG_PASSWORD} ${IMAGE_NAME}"

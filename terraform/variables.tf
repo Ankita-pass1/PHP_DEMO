@@ -1,6 +1,14 @@
-variable vpc_cidr_block{}
-variable subnet_cidr_block{}
-variable region{}
+# variable vpc_id{}
 variable az{}
-variable env{}
+# variable "subnet_cidr_block" { 
+# }
+variable "env" {
+  
+}
 variable instance_type{}
+# variable "subnet_id" {
+  
+# }
+# variable "vpc_cidr_block" {
+  
+# }
