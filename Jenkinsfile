@@ -66,8 +66,8 @@ pipeline{
     agent any
     steps{
         script{
-            echo "copy ansible files on ACM and run the playbook"
-            sshagent(['slave2']) {
+        echo "copy ansible files on ACM and run the playbook"
+        sshagent(['slave2']) {
     //sh "ssh -o StrictHostKeyChecking=no ${ACM_IP} envsubst < ansible/docker-compose-var.yml > ansible/docker-compose.yml" 
     sh "scp -o StrictHostKeyChecking=no ansible/* ${ACM_IP}:/home/ec2-user"
     
