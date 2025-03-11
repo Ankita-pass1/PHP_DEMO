@@ -7,7 +7,7 @@ services:
      depends_on:
      - mysql
    mysql:
-     image: ankita2025/docker:latest
+     image: "ankita2025/docker:mysql"
      volumes:
      - db_data:/var/lib/mysql
      environment:
